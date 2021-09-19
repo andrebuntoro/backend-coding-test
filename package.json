@@ -7,7 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "eslint index.js src tests; nyc mocha tests",
+    "lint": "eslint index.js src tests",
+    "test": "nyc mocha tests",
     "start": "node index.js"
   },
   "keywords": [
@@ -30,6 +31,7 @@
     "supertest": "^4.0.2"
   },
   "pre-push": [
+    "lint",
     "test"
   ]
 }
