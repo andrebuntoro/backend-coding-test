@@ -2,26 +2,18 @@
 
 const request = require('supertest');
 
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database(':memory:');
+const Connection = require('../src/db/connection');
+const createSchemas = require('../src/db/schemas');
+const dbCon = new Connection();
 
-const app = require('../src/app')(db);
-const buildSchemas = require('../src/schemas');
+const app = require('../src/app')(dbCon);
 
 describe('API tests', () => {
-    before((done) => {
-        db.serialize((err) => {
-            if (err) {
-                return done(err);
-            }
-
-            buildSchemas(db);
-
-            done();
-        });
+    before( async () => {
+        await dbCon.init(createSchemas);
     });
 
-    // positive tests
+    // ======== positive tests below ========
 
     describe('GET /health', () => {
         it('should return health', (done) => {
@@ -71,7 +63,7 @@ describe('API tests', () => {
         });
     });
 
-    // negative tests
+    // ======== negative tests below ========
 
     describe('POST /rides (invalid start_lat)', () => {
         it('should return validation error for start_lat', (done) => {
@@ -210,6 +202,18 @@ describe('API tests', () => {
                         'rider_name': 'Andre',
                         'driver_name': 'Kevin',
                         'driver_vehicle': 'Tesla model 3'
+                    }
+                )
+                .expect(500, done);
+        });
+    });
+
+    describe('GET /rides (missing limit)', () => {
+        it('should return list of rides from database', (done) => {
+            request(app)
+                .get('/rides').query(
+                    {
+                        'page': 1
                     }
                 )
                 .expect(500, done);

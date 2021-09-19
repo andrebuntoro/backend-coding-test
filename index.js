@@ -2,22 +2,28 @@
 
 const port = 8010;
 
-
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database(':memory:');
-
-const buildSchemas = require('./src/schemas');
-
 const logger = require('./src/utils/logger');
 
-db.serialize(() => {
-    buildSchemas(db);
+const Connection = require('./src/db/connection');
+const createSchemas = require('./src/db/schemas');
+const dbCon = new Connection();
 
-    const app = require('./src/app')(db);
+const main = async () => {
+    try {
+        await dbCon.init(createSchemas);
 
-    app.listen(port, () => {
+        const app = require('./src/app')(dbCon);
+        app.listen(port);
+
         const msg = `App started and listening on port ${port}`;
         console.log(msg);
         logger.info(msg);
-    });
-});
+    } catch (err) {
+        const msg = 'Error occured, please check logs for more details \n';
+        console.log(msg);
+        logger.info(msg);
+        logger.error(err.message);
+    }
+};
+
+main();
