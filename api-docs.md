@@ -70,6 +70,13 @@ This API is used to get list of rides from the database.
 GET /rides
 ```
 
+#### Query parameters
+
+| Parameters | Required | Type   | Validation |
+| ---------- | -------- | ------ | ---------- |
+| limit      | yes      | number | -          |
+| page       | yes      | number | -          |
+
 #### Response Body
 
 ```json
