@@ -12,10 +12,16 @@ const db = new sqlite3.Database(':memory:');
 
 const buildSchemas = require('./src/schemas');
 
+const logger = require('./src/utils/logger');
+
 db.serialize(() => {
     buildSchemas(db);
 
     const app = require('./src/app')(db);
 
-    app.listen(port, () => console.log(`App started and listening on port ${port}`));
+    app.listen(port, () => {
+        const msg = `App started and listening on port ${port}`;
+        console.log(msg);
+        logger.info(msg);
+    });
 });
