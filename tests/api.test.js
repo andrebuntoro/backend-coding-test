@@ -2,15 +2,13 @@
 
 const request = require('supertest');
 
-const Connection = require('../src/db/connection');
-const createSchemas = require('../src/db/schemas');
-const dbCon = new Connection();
+const dbCon = require('../src/db/connection');
 
-const app = require('../src/app')(dbCon);
+const app = require('../src/routes/app')();
 
 describe('API tests', () => {
     before( async () => {
-        await dbCon.init(createSchemas);
+        await dbCon.init();
     });
 
     // ======== positive tests below ========

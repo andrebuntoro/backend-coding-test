@@ -4,15 +4,13 @@ const port = 8010;
 
 const logger = require('./src/utils/logger');
 
-const Connection = require('./src/db/connection');
-const createSchemas = require('./src/db/schemas');
-const dbCon = new Connection();
+const dbCon = require('./src/db/connection');
 
 const main = async () => {
     try {
-        await dbCon.init(createSchemas);
+        await dbCon.init();
 
-        const app = require('./src/app')(dbCon);
+        const app = require('./src/routes/app')();
         app.listen(port);
 
         const msg = `App started and listening on port ${port}`;

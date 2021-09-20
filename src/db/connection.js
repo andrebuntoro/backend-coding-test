@@ -1,4 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
+const createSchemas = require('./schemas');
 
 /** Connection class for sqlite3 related operations purpose */
 class Connection {
@@ -11,10 +12,9 @@ class Connection {
 
     /**
      * Creates defined required schemas in the database
-     * @param {string} createSchemas
      * @return {Promise} a Promise object that represents successful creation a schemas
      */
-    init(createSchemas) {
+    init() {
         return new Promise((resolve, reject) => {
             this.db.serialize(async () => {
                 try {
@@ -58,4 +58,6 @@ class Connection {
     }
 }
 
-module.exports = Connection;
+const dbCon = new Connection();
+
+module.exports = dbCon;
