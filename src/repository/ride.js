@@ -32,7 +32,7 @@ const getRides = async (limit, page) => {
 
 const getRide = async (rideId) => {
     try {
-        const rows = await dbCon.all(`SELECT * FROM Rides WHERE rideID='${rideId}'`);
+        const rows = await dbCon.all('SELECT * FROM Rides WHERE rideID = ?', rideId);
         return rows;
     } catch (err) {
         throw err;

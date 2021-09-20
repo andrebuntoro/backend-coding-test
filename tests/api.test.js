@@ -53,10 +53,31 @@ describe('API tests', () => {
         });
     });
 
+    describe('GET /rides', () => {
+        it('should return list of rides from database', (done) => {
+            request(app)
+                .get('/rides').query(
+                    {
+                        'limit': 5,
+                        'page': 10
+                    }
+                )
+                .expect(200, done);
+        });
+    });
+
     describe('GET /rides/:id', () => {
         it('should return information about the specified ride id', (done) => {
             request(app)
                 .get('/rides/1')
+                .expect(200, done);
+        });
+    });
+
+    describe('GET /rides/:id', () => {
+        it('should return information about the specified ride id', (done) => {
+            request(app)
+                .get('/rides/null')
                 .expect(200, done);
         });
     });

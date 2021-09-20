@@ -59,7 +59,7 @@ const handleGetRides = async (req, res) => {
 };
 
 const handleGetRide = async (req, res) => {
-    const rideId = req.params.id;
+    const rideId = Number(req.params.id);
 
     try {
         const rows = await ride.getRide(rideId);
