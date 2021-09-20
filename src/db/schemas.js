@@ -1,7 +1,6 @@
 'use strict';
 
-module.exports = (db) => {
-    const createRideTableSchema = `
+const createSchemas = `
         CREATE TABLE Rides
         (
         rideID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -16,7 +15,4 @@ module.exports = (db) => {
         )
     `;
 
-    db.run(createRideTableSchema);
-
-    return db;
-};
+module.exports = createSchemas;

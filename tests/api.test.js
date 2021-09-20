@@ -2,26 +2,16 @@
 
 const request = require('supertest');
 
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database(':memory:');
+const dbCon = require('../src/db/connection');
 
-const app = require('../src/app')(db);
-const buildSchemas = require('../src/schemas');
+const app = require('../src/routes/app')();
 
 describe('API tests', () => {
-    before((done) => {
-        db.serialize((err) => {
-            if (err) {
-                return done(err);
-            }
-
-            buildSchemas(db);
-
-            done();
-        });
+    before( async () => {
+        await dbCon.init();
     });
 
-    // positive tests
+    // ======== positive tests below ========
 
     describe('GET /health', () => {
         it('should return health', (done) => {
@@ -63,6 +53,19 @@ describe('API tests', () => {
         });
     });
 
+    describe('GET /rides', () => {
+        it('should return list of rides from database', (done) => {
+            request(app)
+                .get('/rides').query(
+                    {
+                        'limit': 5,
+                        'page': 10
+                    }
+                )
+                .expect(200, done);
+        });
+    });
+
     describe('GET /rides/:id', () => {
         it('should return information about the specified ride id', (done) => {
             request(app)
@@ -71,7 +74,15 @@ describe('API tests', () => {
         });
     });
 
-    // negative tests
+    describe('GET /rides/:id', () => {
+        it('should return information about the specified ride id', (done) => {
+            request(app)
+                .get('/rides/null')
+                .expect(200, done);
+        });
+    });
+
+    // ======== negative tests below ========
 
     describe('POST /rides (invalid start_lat)', () => {
         it('should return validation error for start_lat', (done) => {
@@ -210,6 +221,18 @@ describe('API tests', () => {
                         'rider_name': 'Andre',
                         'driver_name': 'Kevin',
                         'driver_vehicle': 'Tesla model 3'
+                    }
+                )
+                .expect(500, done);
+        });
+    });
+
+    describe('GET /rides (missing limit)', () => {
+        it('should return list of rides from database', (done) => {
+            request(app)
+                .get('/rides').query(
+                    {
+                        'page': 1
                     }
                 )
                 .expect(500, done);
