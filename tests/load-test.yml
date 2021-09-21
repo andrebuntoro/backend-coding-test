@@ -1,0 +1,33 @@
+config:
+  target: "http://localhost:8010"
+  phases:
+    - duration: 30
+      arrivalRate: 100
+      name: Warm Up
+    - duration: 60
+      arrivalRate: 200
+      name: Ramp up load
+    - duration: 120
+      arrivalRate: 300
+      name: Sustained load
+
+scenarios:
+  - name: "Add and Get Rides"
+    flow:
+      - post:
+          url: "/rides"
+          json:
+            start_lat: -6.1677
+            start_long: 106.817562
+            end_lat: -6.135321
+            end_long: 106.830567
+            rider_name: 'Andre'
+            driver_name: 'Kevin'
+            driver_vehicle: 'Tesla Model 3'
+          capture:
+            - json: "$.results[0].id"
+              as: "rideId"
+      - get:
+          url: "/rides/{{ rideId }}"
+      - get:
+          url: "/rides?limit=3&page=1"
