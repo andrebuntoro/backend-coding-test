@@ -9,7 +9,9 @@
   "scripts": {
     "lint": "eslint index.js src tests",
     "test": "npm run lint; nyc mocha tests",
-    "start": "node index.js"
+    "test:load": "artillery run ./tests/load-test.yml",
+    "start": "node index.js",
+    "start:forever": "forever start index.js"
   },
   "keywords": [
     "Xendit"
@@ -23,8 +25,10 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
+    "artillery": "^1.7.9",
     "eslint": "^7.32.0",
     "eslint-config-google": "^0.14.0",
+    "forever": "^4.0.1",
     "mocha": "^6.1.4",
     "nyc": "^15.1.0",
     "pre-push": "^0.1.1",
