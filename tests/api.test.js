@@ -3,7 +3,7 @@
 const request = require('supertest');
 
 const dbCon = require('../src/db/connection');
-
+const encrypt = require('../src/utils/encrypt');
 const app = require('../src/routes/app')();
 
 describe('API tests', () => {
@@ -24,16 +24,19 @@ describe('API tests', () => {
 
     describe('POST /rides', () => {
         it('should return the newly added ride', (done) => {
+            const payload = {
+                'start_lat': -6.1677,
+                'start_long': 106.817562,
+                'end_lat': -6.135321,
+                'end_long': 106.830567,
+                'rider_name': 'Andre',
+                'driver_name': 'Kevin',
+                'driver_vehicle': 'Tesla Model 3'
+            };
             request(app)
                 .post('/rides').send(
                     {
-                        'start_lat': -6.1677,
-                        'start_long': 106.817562,
-                        'end_lat': -6.135321,
-                        'end_long': 106.830567,
-                        'rider_name': 'Andre',
-                        'driver_name': 'Kevin',
-                        'driver_vehicle': 'Tesla Model 3'
+                        'data': encrypt.encrypt(JSON.stringify(payload))
                     }
                 )
                 .expect(200, done);
@@ -86,16 +89,19 @@ describe('API tests', () => {
 
     describe('POST /rides (invalid start_lat)', () => {
         it('should return validation error for start_lat', (done) => {
+            const payload = {
+                'start_lat': -116.1677,
+                'start_long': 106.817562,
+                'end_lat': -6.135321,
+                'end_long': 106.830567,
+                'rider_name': 'Andre',
+                'driver_name': 'Kevin',
+                'driver_vehicle': 'Tesla Model 3'
+            };
             request(app)
                 .post('/rides').send(
                     {
-                        'start_lat': -116.1677,
-                        'start_long': 106.817562,
-                        'end_lat': -6.135321,
-                        'end_long': 106.830567,
-                        'rider_name': 'Andre',
-                        'driver_name': 'Kevin',
-                        'driver_vehicle': 'Tesla Model 3'
+                        'data': encrypt.encrypt(JSON.stringify(payload))
                     }
                 )
                 .expect(400, done);
@@ -104,16 +110,19 @@ describe('API tests', () => {
 
     describe('POST /rides (invalid start_long)', () => {
         it('should return validation error for start_long', (done) => {
+            const payload = {
+                'start_lat': -6.1677,
+                'start_long': 206.817562,
+                'end_lat': -6.135321,
+                'end_long': 106.830567,
+                'rider_name': 'Andre',
+                'driver_name': 'Kevin',
+                'driver_vehicle': 'Tesla Model 3'
+            };
             request(app)
                 .post('/rides').send(
                     {
-                        'start_lat': -6.1677,
-                        'start_long': 206.817562,
-                        'end_lat': -6.135321,
-                        'end_long': 106.830567,
-                        'rider_name': 'Andre',
-                        'driver_name': 'Kevin',
-                        'driver_vehicle': 'Tesla Model 3'
+                        'data': encrypt.encrypt(JSON.stringify(payload))
                     }
                 )
                 .expect(400, done);
@@ -122,16 +131,19 @@ describe('API tests', () => {
 
     describe('POST /rides (invalid end_lat)', () => {
         it('should return validation error for end_lat', (done) => {
+            const payload = {
+                'start_lat': -6.1677,
+                'start_long': 106.817562,
+                'end_lat': 186.135321,
+                'end_long': 106.830567,
+                'rider_name': 'Andre',
+                'driver_name': 'Kevin',
+                'driver_vehicle': 'Tesla Model 3'
+            };
             request(app)
                 .post('/rides').send(
                     {
-                        'start_lat': -6.1677,
-                        'start_long': 106.817562,
-                        'end_lat': 186.135321,
-                        'end_long': 106.830567,
-                        'rider_name': 'Andre',
-                        'driver_name': 'Kevin',
-                        'driver_vehicle': 'Tesla Model 3'
+                        'data': encrypt.encrypt(JSON.stringify(payload))
                     }
                 )
                 .expect(400, done);
@@ -140,16 +152,19 @@ describe('API tests', () => {
 
     describe('POST /rides (invalid end_long)', () => {
         it('should return validation error for end_long', (done) => {
+            const payload = {
+                'start_lat': -6.1677,
+                'start_long': 106.817562,
+                'end_lat': -6.135321,
+                'end_long': -886.830567,
+                'rider_name': 'Andre',
+                'driver_name': 'Kevin',
+                'driver_vehicle': 'Tesla Model 3'
+            };
             request(app)
                 .post('/rides').send(
                     {
-                        'start_lat': -6.1677,
-                        'start_long': 106.817562,
-                        'end_lat': -6.135321,
-                        'end_long': -886.830567,
-                        'rider_name': 'Andre',
-                        'driver_name': 'Kevin',
-                        'driver_vehicle': 'Tesla Model 3'
+                        'data': encrypt.encrypt(JSON.stringify(payload))
                     }
                 )
                 .expect(400, done);
@@ -158,16 +173,19 @@ describe('API tests', () => {
 
     describe('POST /rides (invalid rider_name)', () => {
         it('should return validation error for rider_name', (done) => {
+            const payload = {
+                'start_lat': -6.1677,
+                'start_long': 106.817562,
+                'end_lat': -6.135321,
+                'end_long': 106.830567,
+                'rider_name': 0,
+                'driver_name': 'Kevin',
+                'driver_vehicle': 'Tesla Model 3'
+            };
             request(app)
                 .post('/rides').send(
                     {
-                        'start_lat': -6.1677,
-                        'start_long': 106.817562,
-                        'end_lat': -6.135321,
-                        'end_long': 106.830567,
-                        'rider_name': 0,
-                        'driver_name': 'Kevin',
-                        'driver_vehicle': 'Tesla Model 3'
+                        'data': encrypt.encrypt(JSON.stringify(payload))
                     }
                 )
                 .expect(400, done);
@@ -176,16 +194,19 @@ describe('API tests', () => {
 
     describe('POST /rides (invalid driver_name)', () => {
         it('should return validation error for driver_name', (done) => {
+            const payload = {
+                'start_lat': -6.1677,
+                'start_long': 106.817562,
+                'end_lat': -6.135321,
+                'end_long': 106.830567,
+                'rider_name': 'Andre',
+                'driver_name': '',
+                'driver_vehicle': 'Tesla Model 3'
+            };
             request(app)
                 .post('/rides').send(
                     {
-                        'start_lat': -6.1677,
-                        'start_long': 106.817562,
-                        'end_lat': -6.135321,
-                        'end_long': 106.830567,
-                        'rider_name': 'Andre',
-                        'driver_name': '',
-                        'driver_vehicle': 'Tesla Model 3'
+                        'data': encrypt.encrypt(JSON.stringify(payload))
                     }
                 )
                 .expect(400, done);
@@ -194,16 +215,19 @@ describe('API tests', () => {
 
     describe('POST /rides (invalid driver_vehicle)', () => {
         it('should return validation error for driver_vehicle', (done) => {
+            const payload = {
+                'start_lat': -6.1677,
+                'start_long': 106.817562,
+                'end_lat': -6.135321,
+                'end_long': 106.830567,
+                'rider_name': 'Andre',
+                'driver_name': 'Kevin',
+                'driver_vehicle': ''
+            };
             request(app)
                 .post('/rides').send(
                     {
-                        'start_lat': -6.1677,
-                        'start_long': 106.817562,
-                        'end_lat': -6.135321,
-                        'end_long': 106.830567,
-                        'rider_name': 'Andre',
-                        'driver_name': 'Kevin',
-                        'driver_vehicle': ''
+                        'data': encrypt.encrypt(JSON.stringify(payload))
                     }
                 )
                 .expect(400, done);
@@ -212,15 +236,18 @@ describe('API tests', () => {
 
     describe('POST /rides (missing start_lat)', () => {
         it('should return validation error for rider_name', (done) => {
+            const payload = {
+                'start_long': 106.817562,
+                'end_lat': -6.135321,
+                'end_long': 106.830567,
+                'rider_name': 'Andre',
+                'driver_name': 'Kevin',
+                'driver_vehicle': 'Tesla model 3'
+            };
             request(app)
                 .post('/rides').send(
                     {
-                        'start_long': 106.817562,
-                        'end_lat': -6.135321,
-                        'end_long': 106.830567,
-                        'rider_name': 'Andre',
-                        'driver_name': 'Kevin',
-                        'driver_vehicle': 'Tesla model 3'
+                        'data': encrypt.encrypt(JSON.stringify(payload))
                     }
                 )
                 .expect(500, done);

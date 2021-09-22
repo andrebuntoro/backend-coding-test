@@ -22,6 +22,18 @@ JSON representation:
 
 ```json
 {
+  "data": "your_encrypted_payload"
+}
+```
+
+Encryption:
+
+- Please open `./src/utils/encrypt` for reference.
+
+Payload:
+
+```json
+{
   "start_lat": -6.1677,
   "start_long": 106.817562,
   "end_lat": -6.135321,
