@@ -28,7 +28,7 @@ JSON representation:
 
 Encryption:
 
-- Please open `./src/utils/encrypt` for reference.
+- Please open `./src/utils/encrypt.js` for reference.
 
 Payload:
 
