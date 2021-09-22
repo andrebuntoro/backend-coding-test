@@ -1,17 +1,20 @@
 const logger = require('../utils/logger');
+const decrypt = require('../utils/decrypt');
 
 const ride = require('../service/ride');
 const validation = require('../service/validation');
 
 const handleCreateRide = async (req, res) => {
+    const data = JSON.parse(decrypt.decrypt(req.body.data));
+
     const param = {
-        startLatitude: Number(req.body.start_lat),
-        startLongitude: Number(req.body.start_long),
-        endLatitude: Number(req.body.end_lat),
-        endLongitude: Number(req.body.end_long),
-        riderName: req.body.rider_name,
-        driverName: req.body.driver_name,
-        driverVehicle: req.body.driver_vehicle
+        startLatitude: Number(data.start_lat),
+        startLongitude: Number(data.start_long),
+        endLatitude: Number(data.end_lat),
+        endLongitude: Number(data.end_long),
+        riderName: data.rider_name,
+        driverName: data.driver_name,
+        driverVehicle: data.driver_vehicle
     };
 
     try {
