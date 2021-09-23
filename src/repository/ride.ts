@@ -1,6 +1,7 @@
-const dbCon = require('../db/connection');
+import dbCon from '../db/connection';
+import RideModel from '../model/ride';
 
-const insertRide = async (model) => {
+const insertRide = async (model: RideModel): Promise<Array<any>> => {
     const values = [
         model.startLatitude, model.startLongitude, model.endLatitude, model.endLongitude,
         model.riderName, model.driverName, model.driverVehicle
@@ -19,7 +20,7 @@ const insertRide = async (model) => {
     }
 };
 
-const getRides = async (limit, page) => {
+const getRides = async (limit: number, page: number):Promise<Array<any>> => {
     const values = [limit, (page - 1) * limit];
 
     try {
@@ -30,7 +31,7 @@ const getRides = async (limit, page) => {
     }
 };
 
-const getRide = async (rideId) => {
+const getRide = async (rideId: number):Promise<Array<any>> => {
     const values = [rideId];
 
     try {
@@ -41,7 +42,7 @@ const getRide = async (rideId) => {
     }
 };
 
-module.exports = {
+export default {
     insertRide,
     getRides,
     getRide

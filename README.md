@@ -13,6 +13,24 @@ Ensure `node (>8.6 and <= 10)` and `npm` are installed
 npm install
 ```
 
+## Linting
+```bash
+npm run lint
+```
+- for typescript support run below:
+```bash
+npm run lint:typescript
+```
+
+## Start Server
+```bash
+npm start
+```
+- for typescript support run below:
+```bash
+npm start:typescript
+```
+
 ## Testing
 
 - To run mocha test & nyc code coverage test:
@@ -23,11 +41,6 @@ npm test
 - To run load testing with artillery:
 ```bash
 npm run test:load
-```
-
-## Start Server
-```bash
-npm start
 ```
 
 ---
