@@ -6,6 +6,32 @@ This is the API documentation for Xendit's assignmen
 
 ---
 
+## Setup
+
+Ensure `node (>8.6 and <= 10)` and `npm` are installed
+```bash
+npm install
+```
+
+## Testing
+
+- To run mocha test & nyc code coverage test:
+```bash
+npm test
+```
+
+- To run load testing with artillery:
+```bash
+npm run test:load
+```
+
+## Start Server
+```bash
+npm start
+```
+
+---
+
 ## Create a Ride
 
 This API is used to record a particular ride information into the database.

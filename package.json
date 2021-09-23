@@ -9,9 +9,8 @@
   "scripts": {
     "lint": "eslint index.js src tests",
     "test": "npm run lint; nyc mocha tests",
-    "test:load": "artillery run ./tests/load-test.yml",
-    "start": "node index.js",
-    "start:forever": "forever start index.js"
+    "test:load": "forever start index.js; artillery run ./tests/load-test.yml; forever stop 0",
+    "start": "node index.js"
   },
   "keywords": [
     "Xendit"
