@@ -4,7 +4,10 @@ const request = require('supertest');
 
 const dbCon = require('../src/db/connection');
 const encrypt = require('../src/utils/encrypt');
-const app = require('../src/routes/app')();
+const express = require('express');
+
+let app = express();
+app = require('../src/routes/ride-route')(app);
 
 describe('API tests', () => {
     before( async () => {

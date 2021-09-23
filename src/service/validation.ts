@@ -1,4 +1,6 @@
-const validateRideRequest = (param) => {
+import RideParam from '../param/ride';
+
+const validateRideRequest = (param: RideParam): void => {
     if (param.startLatitude < -90 || param.startLatitude > 90 || param.startLongitude < -180 || param.startLongitude > 180) {
         throw new Error('Start latitude and longitude must be between -90 to 90 and -180 to 180 degrees respectively');
     }
@@ -20,6 +22,4 @@ const validateRideRequest = (param) => {
     }
 };
 
-module.exports = {
-    validateRideRequest
-};
+export default validateRideRequest;

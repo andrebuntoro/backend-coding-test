@@ -1,14 +1,11 @@
 'use strict';
 
-const express = require('express');
-const app = express();
-
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
-const handler = require('./app-handler');
+const handler = require('./ride-handler');
 
-module.exports = () => {
+module.exports = (app) => {
     app.get('/health', (req, res) => res.send('Healthy'));
 
     app.post('/rides', jsonParser, async (req, res) => {
